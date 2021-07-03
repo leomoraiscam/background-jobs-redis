@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import EtherealMailProvider from '../lib/Mail'
+import Mail from '../lib/Mail'
 
 const usersRouter = Router();
 
 usersRouter.post('/', async (request, response) => {
   const { name, email, password } = request.body;
 
-  const etherealMailProvider = new EtherealMailProvider()
 
   const user = {
     name,
@@ -14,12 +13,11 @@ usersRouter.post('/', async (request, response) => {
     password
   }
 
-  await etherealMailProvider.sendMail({
-    to: {
-      name: user.name,
-      email: user.email,
-    },
+  await Mail.sendMail({
+    from: 'Queue Test <queue@test.com.br>',
+    to: `${name} ${email}`,
     subject: 'Teste de filas',
+    html: `Olá, ${name}, bem-vindo ao sistema de filas`
   })
 
   return response.json(user);
