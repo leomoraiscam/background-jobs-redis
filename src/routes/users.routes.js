@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Mail from '../lib/Mail'
+import Queue from '../lib/Queue';
 
 const usersRouter = Router();
 
@@ -13,12 +13,7 @@ usersRouter.post('/', async (request, response) => {
     password
   }
 
-  await Mail.sendMail({
-    from: 'Queue Test <queue@test.com.br>',
-    to: `${name} ${email}`,
-    subject: 'Teste de filas',
-    html: `Olá, ${name}, bem-vindo ao sistema de filas`
-  })
+  await Queue.add({ user })
 
   return response.json(user);
 });
