@@ -13,7 +13,7 @@ usersRouter.post('/', async (request, response) => {
     password
   }
 
-  await Queue.add({ user })
+  await Queue.add('RegistrationMail', { user })
 
   return response.json(user);
 });
